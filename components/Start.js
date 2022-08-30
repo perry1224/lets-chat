@@ -12,7 +12,7 @@ export default class Start extends React.Component {
         <ImageBackground source={require('../assets/wallpaper.jpg')} style={styles.image}>
         <Text style={styles.title}>Let's Chat!</Text>
         <View style={styles.mainbox}></View>
-        <TextInput style = {[styles.input, styles.smallText]}
+        <TextInput style = {styles.input}
         onChangeText={(name) => this.setState({ name })}
         value= {this.state.name}
         placeholder="Enter your name..."  
@@ -47,22 +47,12 @@ const styles = StyleSheet.create({
     color: '#B533C1',
   },
 
-  mainbox: {
-    flex: 1,
-    width: '88%',
-    height: '44%',
-    backgroundColor: '#FFFFFF',
-    marginBottom: '6%',
-    paddingTop: '6%',
-    paddingBottom: '6%',
-    alignItems: 'center',
-},
   
 input: {
   width: '88%',
   padding: '2%',
   height: 50,
-  
+  alignItems: 'center',
   borderColor: 'gray',
   borderWidth: 1.5,
   borderRadius: 2
