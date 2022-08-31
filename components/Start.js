@@ -3,10 +3,6 @@ import { View, Text, Button, TextInput, StyleSheet, ImageBackground, Pressable, 
 
 import BackgroundImage from '../assets/wallpaper.jpg';
 import Icon from "../assets/icon.svg";
-import { StretchInX } from 'react-native-reanimated';
-
-
-
 
 
 export default class Start extends React.Component {
@@ -19,20 +15,18 @@ export default class Start extends React.Component {
     };
 
 }    
-changeBgColor = (color) => {
-  this.setState({
-    bgColor: color,
-  });
-
-// Create constant that holds background colors for Chat Screen
-const colors = {
+  // function to update the state with the new background color for Chat Screen chosen by the user
+  changeBgColor = (color) => {
+    this.setState({ bgColor:color });
+  };
+  // backgroud colors to choose
+  colors = {
   black: "#090C08",
   purple: "#474056",
   grey: "#8A95A5",
-  green: "#B9C6AE",
-};
-  
-  }
+  green: "#B9C6AE"
+  };
+
   render() {
     return (
       <View style={styles.container}>
