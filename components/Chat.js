@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, TextInput, StyleSheet, ImageBackground} from 'react-native';
+import { View, Text, Button, TextInput, StyleSheet} from 'react-native';
 
 
 export default class Chat extends React.Component {
@@ -9,7 +9,7 @@ export default class Chat extends React.Component {
 
     return (
 <View style={styles.container}>
-           <ImageBackground source={require('../assets/wallpaper.jpg')} style={styles.image}></ImageBackground>
+           {/* <ImageBackground source={require('../assets/wallpaper.jpg')} style={styles.image}></ImageBackground> */}
         <Button 
         title="Go to Start"
         
@@ -23,12 +23,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 },
-  image: {
-    flex: 1,
-    resizeMode: 'cover',
-    flexDirection: 'column',
-    alignItems: 'center',
-},
+//   image: {
+//     flex: 1,
+//     resizeMode: 'cover',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+// },
 })
 
 

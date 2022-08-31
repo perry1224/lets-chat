@@ -5,6 +5,25 @@ import BackgroundImage from '../assets/wallpaper.jpg';
 import Icon from "../assets/icon.svg";
 import { StretchInX } from 'react-native-reanimated';
 
+
+
+
+
+export default class Start extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      name: "",
+      bgColor:"",
+    };
+
+}    
+changeBgColor = (color) => {
+  this.setState({
+    bgColor: color,
+  });
+
 // Create constant that holds background colors for Chat Screen
 const colors = {
   black: "#090C08",
@@ -12,14 +31,7 @@ const colors = {
   grey: "#8A95A5",
   green: "#B9C6AE",
 };
-
-export default class Start extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      bgColor:"",
-    };
+  
   }
   render() {
     return (
@@ -50,20 +62,20 @@ export default class Start extends React.Component {
         {/* Change color background here */}
         <View style={styles.colorArray}>
               <TouchableOpacity
-                style={[{backgroundColor: colors.black}, styles.colorButton]}
-                onPress={() => this.changeBgColor(colors.black)}
+                style={[{backgroundColor: this.colors.black}, styles.colorButton]}
+                onPress={() => this.changeBgColor(this.colors.black)}
               ></TouchableOpacity>
               <TouchableOpacity
-                style={[{backgroundColor: colors.purple}, styles.colorButton]}
-                onPress={() => this.changeBgColor(colors.purple)}
+                style={[{backgroundColor: this.colors.purple}, styles.colorButton]}
+                onPress={() => this.changeBgColor(this.colors.purple)}
               ></TouchableOpacity>
               <TouchableOpacity
-                style={[{backgroundColor: colors.grey}, styles.colorButton]}
-                onPress={() => this.changeBgColor(colors.grey)}
+                style={[{backgroundColor: this.colors.grey}, styles.colorButton]}
+                onPress={() => this.changeBgColor(this.colors.grey)}
               ></TouchableOpacity>
               <TouchableOpacity
-                style={[{backgroundColor: colors.green}, styles.colorButton]}
-                onPress={() => this.changeBgColor(colors.green)}
+                style={[{backgroundColor: this.colors.green}, styles.colorButton]}
+                onPress={() => this.changeBgColor(this.colors.green)}
               ></TouchableOpacity>
             </View>
 
@@ -71,8 +83,8 @@ export default class Start extends React.Component {
            style={styles.button}
             onPress={() =>
               this.props.navigation.navigate("Chat", {
-              name: state.name,
-              bgColor: state.bgColor,
+              name: this.state.name,
+              bgColor: this.state.bgColor,
                 })
               }
        >
