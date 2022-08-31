@@ -71,8 +71,8 @@ export default class Start extends React.Component {
            style={styles.button}
             onPress={() =>
               this.props.navigation.navigate("Chat", {
-              name: this.state.name,
-              bgColor: this.state.bgColor,
+              name: state.name,
+              bgColor: state.bgColor,
                 })
               }
        >
@@ -92,15 +92,15 @@ const styles = StyleSheet.create({
   image: {
       flex: 1,
       resizeMode: 'cover',
-      flexDirection: 'column',
       alignItems: 'center',
   },
 
   titleBox: {
     height: "40%",
-    width: "88%",
+    width: "135%",
     alignItems: "center",
     paddingTop: 100,
+    
   },
 
   title: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     padding: '30%',
     fontSize: 45,
     fontWeight: '600',
-    marginTop: '-25%',
+    marginTop: '-35%',
     flexWrap: 'nowrap',
     color: '#B533C1',
   },
