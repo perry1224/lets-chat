@@ -47,6 +47,7 @@ const colors = {
        
        <View style={styles.inputMain}>
         <View style={styles.inputBox}>
+        <Icon />
         <TextInput style = {styles.input}
         onChangeText={(name) => this.setState({ name })}
         value= {this.state.name}
