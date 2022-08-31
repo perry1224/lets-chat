@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import Start from './components/Start';
 import Chat from './components/Chat';
 import 'react-native-gesture-handler';
@@ -14,6 +15,8 @@ export default class App extends React.Component {
 //   super(props);
 //   this.state= { text: ''};
 // }
+
+
 
 render() {
   return (

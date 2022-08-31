@@ -1,17 +1,34 @@
 import React from 'react';
-import { View, Text, Button, TextInput, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, Button, TextInput, StyleSheet, ImageBackground, Pressable, TouchableOpacity } from 'react-native';
+
+import BackgroundImage from '../assets/wallpaper.jpg';
+import Icon from "../assets/icon.svg";
+
+// Create constant that holds background colors for Chat Screen
+const colors = {
+  black: "#090C08",
+  purple: "#474056",
+  grey: "#8A95A5",
+  green: "#B9C6AE",
+};
 
 export default class Start extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {name: ""};
+    this.state = {
+      name: "",
+      color:''
+    };
   }
   render() {
     return (
       <View style={styles.container}>
-        <ImageBackground source={require('../assets/wallpaper.jpg')} style={styles.image}>
+        <ImageBackground source={BackgroundImage}
+         resizeMode='cover'
+         style={styles.image}>
         <Text style={styles.title}>Let's Chat!</Text>
         <View style={styles.mainbox}></View>
+       
         <TextInput style = {styles.input}
         onChangeText={(name) => this.setState({ name })}
         value= {this.state.name}
@@ -41,6 +58,7 @@ const styles = StyleSheet.create({
 
   title: {
     flex: 1,
+    // fontFamily: 'Poppins-BoldItalic',
     padding: '30%',
     fontSize: 45,
     fontWeight: '600',
