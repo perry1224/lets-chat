@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button, TextInput, StyleSheet, ImageBackground, Pressable, TouchableOpacity } from 'react-native';
 
 import BackgroundImage from '../assets/wallpaper.jpg';
-// import Icon from "../assets/icon.png";
+//  import Icon from "../assets/icon.png";
 
 
 export default class Start extends React.Component {
@@ -17,7 +17,7 @@ export default class Start extends React.Component {
 }    
   // function to update the state with the new background color for Chat Screen chosen by the user
   changeBgColor = (color) => {
-    this.setState({ bgColor:color });
+    this.setState({ color });
   };
   // backgroud colors to choose
   colors = {
@@ -47,6 +47,7 @@ export default class Start extends React.Component {
         value= {this.state.name}
         placeholder="Enter your name..."  
         />
+        
         </View>
         
         <View style={styles.colorBox}>

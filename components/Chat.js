@@ -10,14 +10,26 @@ componentDidMount() {
 }
 
 render() {
+
+  let { bgColor } = this.props.route.params;
+
+  if (bgColor === '') {
+    bgColor = '#FFFFF';
+  }
     return (
-<View style={styles.container}>
+
+<View style={[styles.container, 
+{backgroundColor:bgColor}]}>
+  
+  
            {/* <ImageBackground source={require('../assets/wallpaper.jpg')} style={styles.image}></ImageBackground> */}
         <Button 
         title="Go to Start"
         
         onPress={() => this.props.navigation.navigate("Start")}/>
       </View>
+
+      
     )
   }
 }
