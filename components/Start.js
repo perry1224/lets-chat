@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button, TextInput, StyleSheet, ImageBackground, Pressable, TouchableOpacity } from 'react-native';
 
 import BackgroundImage from '../assets/wallpaper.jpg';
-import Icon from "../assets/icon.svg";
+import Icon from "../assets/icon.png";
 
 
 export default class Start extends React.Component {
