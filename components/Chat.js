@@ -3,10 +3,13 @@ import { View, Text, Button, TextInput, StyleSheet} from 'react-native';
 
 
 export default class Chat extends React.Component {
-  render() {
+
+componentDidMount() {
  let name = this.props.route.params.name;
  this.props.navigation.setOptions({title: name});
+}
 
+render() {
     return (
 <View style={styles.container}>
            {/* <ImageBackground source={require('../assets/wallpaper.jpg')} style={styles.image}></ImageBackground> */}

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button, TextInput, StyleSheet, ImageBackground, Pressable, TouchableOpacity } from 'react-native';
 
 import BackgroundImage from '../assets/wallpaper.jpg';
-import Icon from "../assets/icon.png";
+// import Icon from "../assets/icon.png";
 
 
 export default class Start extends React.Component {
@@ -41,7 +41,7 @@ export default class Start extends React.Component {
        
        <View style={styles.inputMain}>
         <View style={styles.inputBox}>
-        <Icon />
+        {/* <Icon /> */}
         <TextInput style = {styles.input}
         onChangeText={(name) => this.setState({ name })}
         value= {this.state.name}
