@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "300",
     color: "#757083",
-    opacity: 0.5,
+    opacity: 4.5,
     width: "100%",
   },
 
