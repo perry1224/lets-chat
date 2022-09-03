@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   View,
   Text,
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
 
   title: {
     flex: 1,
-    // fontFamily: 'Poppins-BoldItalic',
+    fontFamily: 'Poppins-BoldItalic',
     padding: "30%",
     fontSize: 45,
     fontWeight: "600",
@@ -144,6 +145,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
+    fontFamily: 'Poppins-Regular',
     width: "88%",
     padding: "2%",
     height: 50,
@@ -187,6 +189,7 @@ const styles = StyleSheet.create({
 
   chooseColor: {
     fontSize: 16,
+    fontFamily: 'Poppins-Regular',
     fontWeight: "300",
     color: "#757083",
     opacity: 100,
@@ -218,5 +221,6 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
+    fontFamily: 'Poppins-Regular'
   },
 });

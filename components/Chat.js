@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, Button, TextInput, StyleSheet, Platform, KeyboardAvoidingView} from 'react-native';
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 
-export class Chat extends React.Component {
+export default class Chat extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -11,8 +11,8 @@ export class Chat extends React.Component {
   }
 
   componentDidMount() {
-      let { name }= this.props.route.params.name;  
-      this.props.navigation.setOptions({title: name});
+       let name = this.props.route.params.name;  
+       this.props.navigation.setOptions({title: name});
       this.setState({
       messages: [
         {
@@ -61,10 +61,10 @@ render() {
     bgColor = '#FFFFF';
   }
 
-    return (  
-<View style={[styles.container, {backgroundColor:bgColor}]}>
+    return (
+ <View style={[styles.container, {backgroundColor:bgColor}]}> 
 
-    <GiftedChat
+     <GiftedChat
       renderBubble={this.renderBubble.bind(this)}
       messages={this.state.messages}
       onSend={messages => this.onSend(messages)}
@@ -72,19 +72,19 @@ render() {
       _id: 1,
       }}
 />
-{ Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null }
+{ Platform.OS === 'android' ? <KeyboardAvoidingView behavior="height" /> : null } 
 
   
   
            {/* <ImageBackground source={require('../assets/wallpaper.jpg')} style={styles.image}></ImageBackground> */}
-        {/* <Button 
+         <Button 
         title="Go to Start"
         
-        onPress={() => this.props.navigation.navigate("Start")}/> */}
-      </View>
+        onPress={() => this.props.navigation.navigate("Start")}/> 
+       </View>
 
       
-    );
+     );
   };
 }
 

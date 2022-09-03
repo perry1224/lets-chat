@@ -1,23 +1,40 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Start from './components/Start';
 import Chat from './components/Chat';
 import 'react-native-gesture-handler';
-
+import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
  const Stack = createStackNavigator();
 
 // const Tab = createBottomTabNavigator();
-export default class App extends React.Component {
+
 // constructor(props) {
 //   super(props);
 //   this.state= { text: ''};
 // }
 
+export default class App extends Component {
+  async loadFonts() {
+      await Font.loadAsync({
+          'Poppins-Regular': require('./assets/fonts/Poppins/Poppins-Regular.ttf'),
+          'Poppins-BoldItalic': require('./assets/fonts/Poppins/Poppins-BoldItalic.ttf'),
+          'Poppins-Light': require('./assets/fonts/Poppins/Poppins-Light.ttf'),
+      });
+      this.setState({ fontsLoaded: true });
+  }
+
+  constructor(props) {
+      super(props);
+      this.state = {
+          fontsLoaded: false
+      }
+  }
 
 
 render() {
+  if (!this.state.fontsLoaded) { return null }
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Start">
@@ -27,6 +44,10 @@ render() {
       
     </NavigationContainer>
   );
+}
+
+componentDidMount() {
+  this.loadFonts();
 }
 }
 
