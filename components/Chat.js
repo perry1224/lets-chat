@@ -7,30 +7,54 @@ import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 const firebase = require('firebase');
 require('firebase/firestore');
 
-
-export default class Chat extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      messages: [],
-    }
-  }
-
-
-  // This will connect to the Cloud Firestore database just created. 
   const firebaseConfig = {
     apiKey: "AIzaSyCMUrDh8DX17rMJLzhkPoHlzw8qx2m_iV4",
     authDomain: "let-s-chat-2a172.firebaseapp.com",
     projectId: "let-s-chat-2a172",
     storageBucket: "let-s-chat-2a172.appspot.com",
     messagingSenderId: "234825749572"
-  }
+  };
   if (!firebase.apps.length){
     firebase.initializeApp(firebaseConfig);
     }
   
+export default class Chat extends React.Component {
+  constructor() {
+    super();
+
+      // This will connect to the Cloud Firestore database just created. 
+
     // This stores and retrieves the chat messages your users send. 
     this.referenceChatMessages = firebase.firestore().collection("messages");
+
+    this.state = {
+      messages: [],
+      uid: 1
+    }
+  }
+  componentDidMount() {
+       let name = this.props.route.params.name;  
+       this.props.navigation.setOptions({title: name});
+      this.setState({
+      messages: [
+        {
+          _id: 1,
+          text: 'Hello developer',
+          createdAt: new Date(),
+          user: {
+            _id: 2,
+            name: 'React Native',
+            avatar: 'https://placeimg.com/140/140/any',
+          },
+        },
+        {
+          _id: 2,
+          text: 'This is a system message',
+          createdAt: new Date(),
+          system: true,
+         },
+      ],
+    });
 
         // Adds message to firestore on send
         onSend(messages = []) {
@@ -57,29 +81,14 @@ export default class Chat extends React.Component {
         });
       });
 
-  componentDidMount() {
-       let name = this.props.route.params.name;  
-       this.props.navigation.setOptions({title: name});
-      this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: 'Hello developer',
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any',
-          },
-        },
-        {
-          _id: 2,
-          text: 'This is a system message',
-          createdAt: new Date(),
-          system: true,
-         },
-      ],
-    });
+
+onSend(messages = []) {
+  this.setState(previousState => ({
+    messages: GiftedChat.append(previousState.messages, messages),
+  }));
+}
+  
+
 
     this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
@@ -93,14 +102,10 @@ export default class Chat extends React.Component {
         .orderBy("createdAt", "desc")
         .onSnapshot(this.onCollectionUpdate);
     });
-  }
+  
   }
 
-onSend(messages = []) {
-  this.setState(previousState => ({
-    messages: GiftedChat.append(previousState.messages, messages),
-  }));
-}
+
 
 renderBubble(props) {
   return (
@@ -115,7 +120,7 @@ renderBubble(props) {
   )
 }
 
-
+  }
 render() {
   let { bgColor } = this.props.route.params;
 
