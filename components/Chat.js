@@ -69,7 +69,7 @@ export default class Chat extends React.Component {
     // });
 
 
-    //Check to see whether the user is signed in. If not, create a new user
+    //Authenticates users using Firebase
     this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
         firebase.auth().signInAnonymously();
