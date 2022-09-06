@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { GiftedChat, Bubble } from "react-native-gifted-chat";
 
+//Firestore database
 const firebase = require("firebase");
 require("firebase/firestore");
 
@@ -19,6 +20,8 @@ const firebaseConfig = {
   storageBucket: "let-s-chat-2a172.appspot.com",
   messagingSenderId: "234825749572",
 };
+
+//initializes the Firestore app
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
@@ -42,27 +45,31 @@ export default class Chat extends React.Component {
     this.referenceChatMessages = firebase.firestore().collection("messages");
     let name = this.props.route.params.name;
     this.props.navigation.setOptions({ title: name });
-    this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: "Hello developer",
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: "React Native",
-            avatar: "https://placeimg.com/140/140/any",
-          },
-        },
-        {
-          _id: 2,
-          text: "This is a system message",
-          createdAt: new Date(),
-          system: true,
-        },
-      ],
-    });
 
+
+    // this.setState({
+    //   messages: [
+    //     {
+    //       _id: 1,
+    //       text: "Hello developer",
+    //       createdAt: new Date(),
+    //       user: {
+    //         _id: 2,
+    //         name: "React Native",
+    //         avatar: "https://placeimg.com/140/140/any",
+    //       },
+    //     },
+    //     {
+    //       _id: 2,
+    //       text: "This is a system message",
+    //       createdAt: new Date(),
+    //       system: true,
+    //     },
+    //   ],
+    // });
+
+
+    //Check to see whether the user is signed in. If not, create a new user
     this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
         firebase.auth().signInAnonymously();
@@ -80,6 +87,12 @@ export default class Chat extends React.Component {
     });
   }
 
+  // stop listening to auth and collection changes
+componentWillUnmount() {
+  this.authUnsubscribe();
+  
+}
+
   // Adds message to firestore on send
   onSend(messages = []) {
     const newMessage = messages[0];
@@ -89,6 +102,18 @@ export default class Chat extends React.Component {
       user: newMessage.user,
     });
   }
+
+  // Add message to Firestore
+  addMessages = (message) => {
+    this.referenceChatMessages.add({
+      uid: this.state.uid,
+      _id: message._id,
+      text: message.text || '',
+      createdAt: message.createdAt,
+      user: message.user,
+
+    });
+  };
 
   onCollectionUpdate = (querySnapshot) => {
     const messages = [];
@@ -108,19 +133,33 @@ export default class Chat extends React.Component {
     })
   };
 
+  // Adds message to firestore on send
+addMessages = () => {
+  const newMessage = this.state.messages[0];
+  this.referenceChatMessages.add({
+    text: newMessage.text || "",
+    createdAt: newMessage.createdAt,
+    user: newMessage.user,
+  });
+}
+
   onSend(messages = []) {
     this.setState((previousState) => ({
       messages: GiftedChat.append(previousState.messages, messages),
-    }));
+    }),()=> {
+      this.addMessages;
+    });
   }
 
+
+  // Customize the color of the chat sender bubble
   renderBubble(props) {
     return (
       <Bubble
         {...props}
         wrapperStyle={{
           right: {
-            backgroundColor: "#000",
+            backgroundColor: "#1A4314",
           },
         }}
       />
@@ -128,12 +167,14 @@ export default class Chat extends React.Component {
   }
 
   render() {
+    //background color based on the color selected from 'start.js'
     let { bgColor } = this.props.route.params;
 
     if (bgColor === "") {
       bgColor = "#FFFFF";
     }
 
+    //fullscreen component
     return (
       <View style={[styles.container, { backgroundColor: bgColor }]}>
         <GiftedChat
@@ -145,6 +186,7 @@ export default class Chat extends React.Component {
             name: this.state.user.name,
           }}
         /> 
+        {/* Avoid keyboard to overlap text messages on older Andriod versions  */}
         {Platform.OS === "android" ? (
           <KeyboardAvoidingView behavior="height" />
         ) : null}
