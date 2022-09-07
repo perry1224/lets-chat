@@ -37,6 +37,8 @@ export default class Chat extends React.Component {
 
   //async function used to avoid the blocking of application when retrieving chat data
   //await function used to wait for an async promise to settle
+  //Fetches messages from async storage
+
   async getMessages() {
     let messages = '';
     try {
@@ -49,6 +51,25 @@ export default class Chat extends React.Component {
     }
   };
   
+  //Saves messages in asyncStorage (local)
+  async saveMessages() {
+    try {
+      await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  //Deletes messages in asyncStorage 
+  async deleteMessages() {
+    try {
+      await AsyncStorage.removeItem('messages');
+      this.setState({
+        messages: []
+      })
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   componentDidMount() {
     // This stores and retrieves the chat messages your users send.
@@ -60,6 +81,7 @@ export default class Chat extends React.Component {
     //Check to see if user is offline or online
     NetInfo.fetch().then(connection => {
       if (connection.isConnected) {
+        this.setState({ isConnected: true });
         console.log('online');
       } else {
         console.log('offline');
@@ -112,24 +134,7 @@ componentWillUnmount() {
   
 }
 
-async saveMessages() {
-  try {
-    await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
-  } catch (error) {
-    console.log(error.message);
-  }
-}
 
-async deleteMessages() {
-  try {
-    await AsyncStorage.removeItem('messages');
-    this.setState({
-      messages: []
-    })
-  } catch (error) {
-    console.log(error.message);
-  }
-}
 
   // Adds message to firestore on send
   onSend(messages = []) {
