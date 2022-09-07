@@ -1,12 +1,8 @@
 import React from "react";
-import {
-  View,
-  Button,
-  StyleSheet,
-  Platform,
-  KeyboardAvoidingView,
-} from "react-native";
-import { GiftedChat, Bubble } from "react-native-gifted-chat";
+import { View, Button, StyleSheet, Platform, KeyboardAvoidingView } from "react-native";
+import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo from '@react-native-community/netinfo';
 
 //Firestore database
 const firebase = require("firebase");
@@ -39,13 +35,36 @@ export default class Chat extends React.Component {
     };
   }
 
+  //async function used to avoid the blocking of application when retrieving chat data
+  //await function used to wait for an async promise to settle
+  async getMessages() {
+    let messages = '';
+    try {
+      messages = await AsyncStorage.getItem('messages') || [];
+      this.setState({
+        messages: JSON.parse(messages)
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  
 
   componentDidMount() {
     // This stores and retrieves the chat messages your users send.
     this.referenceChatMessages = firebase.firestore().collection("messages");
     let name = this.props.route.params.name;
     this.props.navigation.setOptions({ title: name });
+    this.getMessages();
 
+    //Check to see if user is offline or online
+    NetInfo.fetch().then(connection => {
+      if (connection.isConnected) {
+        console.log('online');
+      } else {
+        console.log('offline');
+      }
+    });
 
     // this.setState({
     //   messages: [
@@ -93,14 +112,38 @@ componentWillUnmount() {
   
 }
 
+async saveMessages() {
+  try {
+    await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+async deleteMessages() {
+  try {
+    await AsyncStorage.removeItem('messages');
+    this.setState({
+      messages: []
+    })
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
   // Adds message to firestore on send
   onSend(messages = []) {
-    const newMessage = messages[0];
-    this.referenceChatMessages.add({
-      text: newMessage.text || "",
-      createdAt: newMessage.createdAt,
-      user: newMessage.user,
-    });
+    this.setState(previousState => ({
+      messages: GiftedChat.append(previousState.messages, messages),
+    }), () => {
+      this.saveMessages();
+    })
+    // const newMessage = messages[0];
+    // this.referenceChatMessages.add({
+    //   text: newMessage.text || "",
+    //   createdAt: newMessage.createdAt,
+    //   user: newMessage.user,
+    // });
   }
 
   // Add message to Firestore
@@ -164,6 +207,18 @@ addMessages = () => {
         }}
       />
     );
+  }
+
+  //Will not render toolbar if offline
+renderInputToolbar(props) {
+    if (this.state.isConnected == false) {
+    } else {
+      return(
+        <InputToolbar
+        {...props}
+        />
+      );
+    }
   }
 
   render() {
