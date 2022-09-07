@@ -143,6 +143,7 @@ componentWillUnmount() {
       messages: GiftedChat.append(previousState.messages, messages),
     }), () => {
       this.saveMessages();
+      this.addMessages();
 
     })
     // const newMessage = messages[0];
