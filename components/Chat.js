@@ -77,13 +77,14 @@ export default class Chat extends React.Component {
     let name = this.props.route.params.name;
     this.props.navigation.setOptions({ title: name });
     this.getMessages();
-
+  
     //Check to see if user is offline or online
     NetInfo.fetch().then(connection => {
       if (connection.isConnected) {
         this.setState({ isConnected: true });
         console.log('online');
       } else {
+        this.setState({isConnected: false})
         console.log('offline');
       }
     });
@@ -122,6 +123,7 @@ export default class Chat extends React.Component {
         name,
        }
       });
+
       this.unsubscribe = this.referenceChatMessages
         .orderBy("createdAt", "desc")
         .onSnapshot(this.onCollectionUpdate);
@@ -135,13 +137,13 @@ componentWillUnmount() {
 }
 
 
-
   // Adds message to firestore on send
   onSend(messages = []) {
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages),
     }), () => {
       this.saveMessages();
+
     })
     // const newMessage = messages[0];
     // this.referenceChatMessages.add({
@@ -239,6 +241,8 @@ renderInputToolbar(props) {
       <View style={[styles.container, { backgroundColor: bgColor }]}>
         <GiftedChat
           renderBubble={this.renderBubble.bind(this)}
+          isConnected={this.state.isConnected}
+          renderInputToolbar={this.renderInputToolbar.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{
