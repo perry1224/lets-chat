@@ -76,6 +76,8 @@ export default class Chat extends React.Component {
     this.referenceChatMessages = firebase.firestore().collection("messages");
     let name = this.props.route.params.name;
     this.props.navigation.setOptions({ title: name });
+
+    //Fetch messages from local storage online and offline
     this.getMessages();
   
     //Check to see if user is offline or online
@@ -133,6 +135,7 @@ export default class Chat extends React.Component {
   // stop listening to auth and collection changes
 componentWillUnmount() {
   this.authUnsubscribe();
+  this.unsubscribe();
   
 }
 
@@ -154,17 +157,6 @@ componentWillUnmount() {
     // });
   }
 
-  // Add message to Firestore
-  addMessages = (message) => {
-    this.referenceChatMessages.add({
-      uid: this.state.uid,
-      _id: message._id,
-      text: message.text || '',
-      createdAt: message.createdAt,
-      user: message.user,
-
-    });
-  };
 
   onCollectionUpdate = (querySnapshot) => {
     const messages = [];
@@ -191,17 +183,10 @@ addMessages = () => {
     text: newMessage.text || "",
     createdAt: newMessage.createdAt,
     user: newMessage.user,
+    _id: newMessage._id,
+    uid: this.state.uid,
   });
 }
-
-  onSend(messages = []) {
-    this.setState((previousState) => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }),()=> {
-      this.addMessages;
-    });
-  }
-
 
   // Customize the color of the chat sender bubble
   renderBubble(props) {
