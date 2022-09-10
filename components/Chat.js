@@ -228,6 +228,7 @@ renderInputToolbar(props) {
         <GiftedChat
           renderBubble={this.renderBubble.bind(this)}
           isConnected={this.state.isConnected}
+          renderActions={this.renderCustomerActions}
           renderInputToolbar={this.renderInputToolbar.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
