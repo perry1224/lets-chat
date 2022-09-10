@@ -5,7 +5,7 @@ import 'react-native-gesture-handler';
 import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import CustomActions from './CustomActions';
+import CustomActions from './components/CustomActions';
 
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
  const Stack = createStackNavigator();

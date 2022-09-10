@@ -8,30 +8,26 @@ import firebase from 'firebase';
 
 export default class CustomActions extends React.Component {
 
-
-  onActionPress = () => {
-    const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
-    const cancelButtonIndex = options.length - 1;
-    this.context.actionSheet().showActionSheetWithOptions(
-      {
-        options,
-        cancelButtonIndex,
-      },
-      async (buttonIndex) => {
-        switch (buttonIndex) {
-          case 0:
-            console.log('user wants to pick an image');
-            return;
-          case 1:
-            console.log('user wants to take a photo');
-            return;
-          case 2:
-            console.log('user wants to get their location');
-          default:
-        }
-      },
-    );
-  };
+  uploadImageFetch = async (uri) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function(e) {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+    });
+    const ref = firebase.storage().ref().child('my-image');
+  const snapshot = await ref.put(blob);
+  blob.close();
+  
+  return await snapshot.ref.getDownloadURL();
+    }
 
     
    //* allows users to pick image from their library, 
@@ -83,35 +79,45 @@ export default class CustomActions extends React.Component {
     }
 }
 
-  uploadImageFetch = async (uri) => {
-  const blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function() {
-      resolve(xhr.response);
-    };
-    xhr.onerror = function(e) {
-      console.log(e);
-      reject(new TypeError('Network request failed'));
-    };
-    xhr.responseType = 'blob';
-    xhr.open('GET', uri, true);
-    xhr.send(null);
-  });
-  const ref = firebase.storage().ref().child('my-image');
-const snapshot = await ref.put(blob);
-blob.close();
 
-return await snapshot.ref.getDownloadURL();
-  }
-
+onActionPress = () => {
+  const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
+  const cancelButtonIndex = options.length - 1;
+  this.context.actionSheet().showActionSheetWithOptions(
+    {
+      options,
+      cancelButtonIndex,
+    },
+    async (buttonIndex) => {
+      switch (buttonIndex) {
+        case 0:
+          console.log('user wants to pick an image');
+          return this.pickImage();
+        case 1:
+          console.log('user wants to take a photo');
+          return this.takePhoto();
+        case 2:
+          console.log('user wants to get their location');
+          return this.getLocation();
+        default:
+      }
+    },
+  );
+};
 
 render() {
   return (
-    <TouchableOpacity style={[styles.container]} onPress={this.onActionPress}>
-      <View style={[styles.wrapper, this.props.wrapperStyle]}>
+    <TouchableOpacity
+    style={[styles.container]}
+    onPress={this.onActionPress}
+    accessible={true}
+    accessibilityLabel="more options"
+    accessibilityHint="lets you choose to send an image or your location"
+    accessibilityRole="button">
+    <View style={[styles.wrapper, this.props.wrapperStyle]}>
         <Text style={[styles.iconText, this.props.iconTextStyle]}>+</Text>
-      </View>
-    </TouchableOpacity>
+    </View>
+</TouchableOpacity>
   );
 }
 }
