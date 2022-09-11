@@ -30,10 +30,13 @@ export default class Chat extends React.Component {
     this.state = {
       messages: [],
       uid: 0,
+      image: null,
+      location: null,
       user: {
         _id: "",
         name: "",
-      }
+
+      }        
     };
   }
 
@@ -162,20 +165,26 @@ componentWillUnmount() {
 
   onCollectionUpdate = (querySnapshot) => {
     const messages = [];
-    // go through each document
+    // Go through each document
     querySnapshot.forEach((doc) => {
-      // get the QueryDocumentSnapshot's data
+      // Get the QueryDocumentsSnapshot's data
       let data = doc.data();
       messages.push({
         _id: data._id,
-        text: data.text,
+        text: data.text || '',
         createdAt: data.createdAt.toDate(),
-        user: data.user,
+        user: {
+          _id: data.user._id,
+          name: data.user.name,
+        },
+        image: data.image || null,
+      location: data.location || null,
+        
       });
     });
     this.setState({
       messages,
-    })
+    });
   };
 
   // Adds message to firestore on send
@@ -187,6 +196,8 @@ addMessages = () => {
     user: newMessage.user,
     _id: newMessage._id,
     uid: this.state.uid,
+    image: newMessage.image || null,
+    location: newMessage.location || null,
   });
 }
 
