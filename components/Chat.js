@@ -256,7 +256,6 @@ renderCustomView (props) {
       <View style={[styles.container, { backgroundColor: bgColor }]}>
         <GiftedChat
           renderBubble={this.renderBubble.bind(this)}
-          isConnected={this.state.isConnected}
           renderActions={this.renderCustomActions}
           renderCustomView={this.renderCustomView}
           renderInputToolbar={this.renderInputToolbar.bind(this)}
