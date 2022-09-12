@@ -1,4 +1,4 @@
-# Chat App
+# Let's Chat
 
 ## Description
 
