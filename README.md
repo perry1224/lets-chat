@@ -6,7 +6,7 @@ The aim of this project is to build a chat app for mobile devices using React Na
 
 ## Purpose of this App
 
-Chat App was developed to provide an opportunity to learn about native app development, and hone the relevant skills.
+The app called "Let's Chat" was developed to provide an opportunity to learn about native app development, and hone the relevant skills.
 
 
 ### Key Features
