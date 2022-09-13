@@ -163,7 +163,7 @@ export default class Chat extends React.Component {
   // Adds message to firestore on send
 addMessages = () => {
   const newMessage = this.state.messages[0];
-  this.referenceChatMessages.add({
+  return this.referenceChatMessages.add({
     text: newMessage.text || "",
     createdAt: newMessage.createdAt,
     user: newMessage.user,
