@@ -96,28 +96,6 @@ export default class Chat extends React.Component {
       }
     });
 
-    // this.setState({
-    //   messages: [
-    //     {
-    //       _id: 1,
-    //       text: "Hello developer",
-    //       createdAt: new Date(),
-    //       user: {
-    //         _id: 2,
-    //         name: "React Native",
-    //         avatar: "https://placeimg.com/140/140/any",
-    //       },
-    //     },
-    //     {
-    //       _id: 2,
-    //       text: "This is a system message",
-    //       createdAt: new Date(),
-    //       system: true,
-    //     },
-    //   ],
-    // });
-
-
     //Authenticates users using Firebase
     this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
@@ -138,11 +116,11 @@ export default class Chat extends React.Component {
   }
 
   // stop listening to auth and collection changes
-componentWillUnmount() {
-  this.authUnsubscribe();
-  this.unsubscribe();
+  componentWillUnmount() {
+    this.authUnsubscribe();
+    this.unsubscribe();
   
-}
+    }
 
 
   // Adds message to firestore on send
@@ -154,12 +132,7 @@ componentWillUnmount() {
       this.addMessages();
 
     })
-    // const newMessage = messages[0];
-    // this.referenceChatMessages.add({
-    //   text: newMessage.text || "",
-    //   createdAt: newMessage.createdAt,
-    //   user: newMessage.user,
-    // });
+
   }
 
 
@@ -282,7 +255,7 @@ renderCustomView (props) {
           <KeyboardAvoidingView behavior="height" />
         ) : null}
 
-        {/* <ImageBackground source={require('../assets/wallpaper.jpg')} style={styles.image}></ImageBackground> */}
+
         <Button
           title="Go to Start"
           onPress={() => this.props.navigation.navigate("Start")}
